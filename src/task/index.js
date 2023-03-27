@@ -41,16 +41,15 @@ function Role() {
         };
         getAllTask(query).then((res)=>{
             const {data,limit,skip,total} = res.data;
-            console.log(data,limit,skip);
             TaskStore.set(
                 () => ({listData:{ data:data,hasMore:total>(limit+skip)}, paginationProps: { ...pagination, count:total}  }),
-                'HostProviderStore-data-loader'
+                'taskStore-data-loader'
             );
             setLoading(false);
         }).catch(()=>{
             TaskStore.set(
                 () => ({listData:{ data:[],hasMore:false} }),
-                'HostProviderStore-data-loader'
+                'taskStore-data-loader'
             );
             setLoading(false);
         });
@@ -59,7 +58,7 @@ function Role() {
     const setPaginationPropsData = (obj) => {
         TaskStore.set(
             () => ({ paginationProps: { ...paginationProps, ...obj} }),
-            'HostProviderStore-update-paginationProps'
+            'taskStore-update-paginationProps'
         );
         getAllData({ ...paginationProps, ...obj});
     };
@@ -128,9 +127,9 @@ function Role() {
     };
 
     return (
-        <Box style={ {marginTop:100}}>
+        <Box style={ {marginTop:20}}>
             <ContainerHeader  
-                title={<Box component='span' fontSize='20px' padding= '10px' fontWeight='500'> Task </Box>}
+                title={<Box component='span' fontSize='20px' padding= '10px' fontWeight='500'> Task Management </Box>}
                 extra={
                     <Box display='flex' alignItems='center'>
                         <Box mr={1}>

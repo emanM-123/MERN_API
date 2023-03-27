@@ -22,14 +22,14 @@ function App() {
     <div className="App">
     <CourseContext.Provider value={{ task }}>
     <Router>
-      { user ? <NavBar/> : <></> }
+      
       <Routes>
         <Route path='/' element={<SignIn />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path=  '/task' element={<Task getAllTask={getAllTaskData} />} />
         
       </Routes>
-
+      { user ? <NavBar/> : <></> }
     </Router>
 
     </CourseContext.Provider>

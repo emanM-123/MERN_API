@@ -3,11 +3,10 @@ import {
   FormControl,
   FormGroup,
   TextField,
-  Typography,
   styled,
   Button,
-  
 } from "@mui/material";
+import { HashLink as Link } from "react-router-hash-link";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../services";
 import { validEmail } from "../../helper";
@@ -15,7 +14,7 @@ import { validEmail } from "../../helper";
 const Container = styled(FormGroup)(`
     width:30%;
     border-radius:10px;
-    margin:5% auto 0 auto;
+    margin: 0 auto 0 auto;
     & > div {
         margin-top:20px
     }
@@ -88,20 +87,27 @@ const Signin = () => {
       }
     }
   };
-  return ( 
+  return (
     <div
-    style={{
-      backgroundImage: `url('https://wallpaperaccess.com/full/5137774.jpg')`,
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-    //   backgroundPosition: 'center',
-      minHeight: '100vh',
-    }}
+      style={{
+        backgroundImage: `url('https://i.pinimg.com/originals/a3/d8/8e/a3d88e30cd966d4c4d1eb2beb3556665.jpg')`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        minHeight: "100vh",
+      }}
     >
-    <Container>
-          <Typography variant="h4">Sign In</Typography>
-
+      <div
+        style={{
+          backgroundColor: "gray",
+          height: 400,
+          width: 600,
+          borderRadius: 40,
+          marginLeft: 70,
+        }}
+      >
+        <Container style={{ marginLeft: 150 }}>
           <FormControl>
+            <h1> Login</h1>
             <TextField
               error={errorObj.email}
               helperText={errorObj.email}
@@ -122,15 +128,26 @@ const Signin = () => {
             />
           </FormControl>
           <FormControl>
-            <Button variant="contained" onClick={handleLogin}>
+            <Button
+              style={{
+                borderRadius: 10,
+                width: 300,
+                alignSelf: "center",
+                backgroundColor: "gray",
+              }}
+              variant="contained"
+              onClick={handleLogin}
+            >
               Login
             </Button>
             <div style={{ margin: 10 }}></div>
-            <Button variant="contained" onClick={() => navigate("/signup")}>
-              Register
-            </Button>
+            <p style={{ textAlign: "center" }}>
+              Not a member ? <Link to="/signup">Register now</Link>
+            </p>
           </FormControl>
-    </Container></div>
+        </Container>
+      </div>
+    </div>
   );
 };
 

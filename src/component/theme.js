@@ -163,14 +163,6 @@ const theme = createMuiTheme({
                 borderRight: 'unset'
             }
         },
-        // MuiLink:{
-        //     root:{
-        //         color:'rgba(0, 0, 0, 0.87)',
-        //         '&:hover': {
-        //             color:'#1DA1F2'
-        //         }
-        //     }
-        // },
         MuiSwitch:{
             track:{
                 backgroundColor:'#000'

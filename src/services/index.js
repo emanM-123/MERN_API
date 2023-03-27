@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { serializeObjectToQuery } from '../../src/helper';
 const baseUrl = "http://localhost:3113";
 const token = JSON.parse(localStorage.getItem('token'));
 console.log(token);
@@ -39,9 +39,9 @@ export const createTask = async (data) => {
     }
 }
 
-export const getAllTask = async (limit=10,skip=0) => {
+export const getAllTask = async ({ ...otherQuery }) => {
     try {
-        return await axios.get(`${baseUrl}/task?$sort[dueDate]=-1&$limit=${limit}&$skip=${skip}`,{
+        return await axios.get(`${baseUrl}/task${serializeObjectToQuery(otherQuery)}&$sort[dueDate]=-1`,{
             headers: {
                 Authorization: `Bearer ${token}`
               }

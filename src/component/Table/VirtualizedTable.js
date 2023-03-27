@@ -77,41 +77,6 @@ const useStyles = makeStyles((theme) => ({
     tableCell: {
         flex: 1
     },
-    // tableRowClass:{
-    //     background:'red',
-    //     '&:nth-of-type(odd)': {
-    //         backgroundColor:'#f7f7'
-    //     },
-    //     '&.MuiTableRow-hover:hover': {
-    //         backgroundColor: theme.palette.grey[400]
-    //     }
-    // },
-    tableRootBorder:{
-        // marginRight:0,
-        // height:'100%',
-        // display: 'flex',
-        // alignItems: 'center',
-        // '&.ReactVirtualized__Table__rowColumn': {
-        //     borderTop:`1px solid ${theme.palette.grey[300]}`, 
-        //     borderBottom:`1px solid ${theme.palette.grey[300]}`,
-        //     // borderRight:`1px solid ${theme.palette.grey[300]}`,
-        // },
-        // // table right border
-        // '&.ReactVirtualized__Table__rowColumn:last-child ': {
-        //     borderRight:`1px solid ${theme.palette.grey[300]}`,
-        // },
-        // // table left border
-        // '&.ReactVirtualized__Table__rowColumn:first-child ': {
-        //     borderLeft:`1px solid ${theme.palette.grey[300]}`
-        // },
-        // '&.ReactVirtualized__Table__headerColumnn': {
-        //     borderTop:`1px solid ${theme.palette.grey[300]}`, 
-        //     // borderRight:`1px solid ${theme.palette.grey[300]}`,
-        // },
-        // '&.ReactVirtualized__Table__headerColumnn:first-child ': {
-        //     borderLeft:`1px solid ${theme.palette.grey[300]}`
-        // }, 
-    }
 }));
 
 const MuiVirtualizedTable = (props) => {

@@ -3,8 +3,7 @@ import Box from '@material-ui/core/Box';
 import Switch from '@material-ui/core/Switch';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
-import DateFilter from '../component/DateFilter';
-
+import moment from "moment";
 const column = ({ onHandelEdit,handleChangeDeleted }) => {
     return [
         {
@@ -18,16 +17,20 @@ const column = ({ onHandelEdit,handleChangeDeleted }) => {
             title: 'Description',
             dataIndex: 'description',
             key: 'description',
-            tableCellProps: { align: 'left' },
-            render: (description)=> description && description || 'NA'
+            tableCellProps: { align: 'center' },
+            render: (description ) => {
+                return <div>
+                    <div  style={{marginLeft:'100px', width: '600px',textOverflow: 'ellipsis',cursor:'pointer'}} > {description}</div>
+            </div>;
+            }
             
         },      
         {
             title: 'Due Date',
             dataIndex: 'dueDate',
             key: 'dueDate',
-            tableCellProps: { align: 'left' },
-            render: (dueDate)=> dueDate && DateFilter(new Date(dueDate),false,'F DD YYYY') || 'NA'
+            tableCellProps: { align: 'center' },
+            render: (dueDate)=> dueDate && moment(dueDate).utc().format('YYYY-MM-DD') || 'NA'
             
         },       
         {
@@ -39,7 +42,7 @@ const column = ({ onHandelEdit,handleChangeDeleted }) => {
                 <Switch
                     checked={record.deleted}
                     id='deleted'
-                    inputProps={{ 'aria-label': 'secondary checkbox' }}
+                    inputProps={{ 'aria-label': 'primary checkbox' }}
                     onChange={(value) => handleChangeDeleted(record, value.target.value)}
                     value={record.deleted}
                 />

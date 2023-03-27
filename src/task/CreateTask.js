@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState ,useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -12,12 +12,19 @@ import Button from "../component/Button";
 import { createTask, editTask, getAllTask } from "../services";
 import { TaskStore } from "./TaskStore";
 import TextareaAutosize from "../component/Textarea";
+
+import SelectInput from "../component/SelectInput";
 // import BasicDatePicker from "../component/DatePickers";
-import DatePicker from "../component/DatePicker";
 const useStyles = makeStyles((theme) => ({
   createBtn: {
     borderRadius: 5,
+    width: 200,
+    marginLeft: 20,
+    marginRight: 20
   },
+  // selectInput: {
+  //   margin: dance
+  // },
 
   applyFilterBtn: {
     borderRadius: 5,
@@ -32,8 +39,7 @@ const useStyles = makeStyles((theme) => ({
 export default function CreateTask() {
   const classes = useStyles();
 
-  const { selectedEditObj, isOpenDialog, listData, showDetails } =
-    useStore(TaskStore);
+  const {paginationProps, selectedEditObj, isOpenDialog, listData } = useStore(TaskStore);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const action = (key) => (
     <Button
@@ -44,15 +50,51 @@ export default function CreateTask() {
       {"Dismiss"}
     </Button>
   );
+  const options = [
+    {
+      status: "Select Status",
+      value: "",
+    },
+    {
+      status: "Completed",
+      value: "Completed",
+    },
+    {
+      status: "Pending",
+      value: "Pending",
+    },
+  ];
 
   const [errorObj, setErrorObj] = useState({});
   const [loading, setLoading] = useState();
-    
-  const [selectedDate, setSelectedDate] = useState(null);
-  
+  const [searchFilterObj,setSearchFilterObj] = useState({});
+  const loadTask = (pagination = paginationProps) => {
+    const query = {
+      $limit: pagination.rowsPerPage ? pagination.rowsPerPage : 20,
+      $skip:
+          pagination.page > 0
+              ? pagination.page * pagination.rowsPerPage
+              : 0,
+        status: searchFilterObj.status ? searchFilterObj.status : '',
+    };
+    getAllTask( query )
+        .then((response) => {
+          const {data,limit,skip,total} = response.data;
+          TaskStore.set(
+            () => ({listData:{ data:data,hasMore:total>(limit+skip)}, paginationProps: { ...pagination, count:total}  }),
+            'TaskStore-data-loader'
+        );
+            setLoading(false);
+        })
+        .catch((error) => {
+            enqueueSnackbar(error.message, { action, variant: 'error' });
+        });
+};
   const updateValue = (obj) => {
     TaskStore.set(
-      () => ({ selectedEditObj: { ...selectedEditObj, ...obj, dueDate:selectedDate } }),
+      () => ({
+        selectedEditObj: { ...selectedEditObj, ...obj },
+      }),
       "TaskStore-Create-Dialog-Open"
     );
   };
@@ -163,22 +205,42 @@ export default function CreateTask() {
         });
     }
   };
+  useEffect(()=>{
+    loadTask();
+},[searchFilterObj]);
   return (
     <>
-      <Button
-        onClick={() => {
-          TaskStore.set(
-            () => ({ isOpenDialog: true }),
-            "TaskStore-Create-Dialog-Open"
-          );
-        }}
-        className={classes.createBtn}
-        size="small"
-        variant="contained"
-        color="secondary"
-      >
-        Create
-      </Button>
+      <div style={{display:"flex"}} mr={2}>
+        <SelectInput 
+          margin = "dance"
+          valueKey="value"
+          labelKey="status"
+          options={options}
+          selectProps={{
+            onChange: (event) => {
+              // setStatusUpdate(true);
+              setSearchFilterObj({
+                ...searchFilterObj,
+                status: event.target.value,
+              });
+            },
+          }}
+        />
+        <Button
+          onClick={() => {
+            TaskStore.set(
+              () => ({ isOpenDialog: true }),
+              "TaskStore-Create-Dialog-Open"
+            );
+          }}
+          className={classes.createBtn}
+          variant="contained"
+          color="primary"
+        >
+          Create
+        </Button>
+        
+      </div>
 
       <Dialog
         fullWidth
@@ -219,10 +281,15 @@ export default function CreateTask() {
           </Box>
           <Box mb={2}>
             <InputLabel className={classes.inputLabel}>Due Date</InputLabel>
-            <DatePicker
-              label="Due Date"
-              value={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
+
+            <input
+              style={{ width: "98%" }}
+              className={classes.inputLabel}
+              type="date"
+              value={selectedEditObj.dueDate}
+              onChange={(event) => {
+                updateValue({ dueDate: event.target.value });
+              }}
             />
           </Box>
         </DialogContent>

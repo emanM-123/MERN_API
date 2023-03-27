@@ -62,14 +62,11 @@ const useStyles = makeStyles((theme) => ({
         borderTop: `1px solid ${theme.palette.grey[300]}`,
     },
     tableOutBorder: {
-    // borderRight:`1px solid ${theme.palette.grey[200]}`,
-    // borderLeft:`1px solid ${theme.palette.grey[200]}`,
     },
     tableRootBorder: {
         '& td': {
             borderTop: `1px solid ${theme.palette.grey[300]}`,
             borderBottom: `1px solid ${theme.palette.grey[300]}`,
-            // borderRight:`1px solid ${theme.palette.grey[300]}`,
         },
         // table right border
         '& td:last-child ': {
@@ -81,7 +78,6 @@ const useStyles = makeStyles((theme) => ({
         },
         '& th': {
             borderTop: `1px solid ${theme.palette.grey[300]}`,
-            // borderRight:`1px solid ${theme.palette.grey[300]}`,
         },
         '& th:first-child ': {
             borderLeft: `1px solid ${theme.palette.grey[300]}`,
@@ -98,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
 function CustomTable(props) {
     const {
         columns,
-        dataSource,
+        dataSource = [],
         rowKey,
         tableProps,
         rowExpandable,
@@ -112,8 +108,6 @@ function CustomTable(props) {
         rowExpandablePlacement='left'
     } = props;
     const classes = useStyles();
-    // const theme = useTheme();
-    // const isMdScreen = useMediaQuery(theme.breakpoints.down('md'));
     return (
         <Paper className={classes.tablePaper}>
             {tableTitle ? <EnhancedTableToolbar {...props} /> : null}
@@ -165,7 +159,7 @@ function CustomTable(props) {
                         </TableRow>
                     ) : (
                         <TableBody>
-                            {dataSource.map((record, index) => {
+                            {dataSource && dataSource.map((record, index) => {
                                 return (
                                     <Row
                                         {...props}

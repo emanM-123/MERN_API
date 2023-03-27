@@ -1,34 +1,25 @@
 
-import { AppBar, Toolbar, styled, Button } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import { Toolbar, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-const Header = styled(AppBar)(
-    `background:white`
-)
-const Tabs = styled(NavLink)(`
-    font-size:20px;
-    margin-right:20px;
-    text-decoration:none;
-    color:inherit;
-`)
+
 
 
 function NavBar() {
 
     const navigate = useNavigate();
-    const handleLogout = () => {
-        navigate('/');
+    const handleLogout = () => {        
         window.localStorage.removeItem('token');
+        navigate('/');
     }
     return (
-        <Header>
+        <footer>
             <Toolbar style={{
                 display: 'flex',
                 justifyContent: 'space-between'
             }}>
                 <Button variant='contained' onClick={handleLogout}>Logout</Button>
             </Toolbar>
-        </Header>
+        </footer>
     )
 }
 
